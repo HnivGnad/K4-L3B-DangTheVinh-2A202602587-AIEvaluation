@@ -203,47 +203,53 @@ Copy bảng terminal vào đây hoặc điền từ `artifacts/benchmark_results
 
 | ID | Question (short) | Ctx Recall | Ctx Precision | Faithfulness | Relevance | Completeness | Overall | Passed? | Failure Type |
 |---|---|---:|---:|---:|---:|---:|---:|---|---|
-| E01 | | | | | | | | | |
-| E02 | | | | | | | | | |
-| E03 | | | | | | | | | |
-| E04 | | | | | | | | | |
-| E05 | | | | | | | | | |
-| M01 | | | | | | | | | |
-| M02 | | | | | | | | | |
-| M03 | | | | | | | | | |
-| M04 | | | | | | | | | |
-| M05 | | | | | | | | | |
-| M06 | | | | | | | | | |
-| M07 | | | | | | | | | |
-| H01 | | | | | | | | | |
-| H02 | | | | | | | | | |
-| H03 | | | | | | | | | |
-| H04 | | | | | | | | | |
-| H05 | | | | | | | | | |
-| A01 | | | | | | | | | |
-| A02 | | | | | | | | | |
-| A03 | | | | | | | | | |
+| E01 | NovaBook 14 specifications | 0.879 | 0.700 | 0.846 | 0.700 | 0.879 | 0.808 | Yes | - |
+| E02 | Order creation and payment capture | 0.850 | 1.000 | 0.467 | 1.000 | 0.750 | 0.739 | No | off_topic |
+| E03 | OrbitPlus cost and benefits | 0.824 | 0.917 | 0.769 | 0.600 | 0.735 | 0.702 | Yes | - |
+| E04 | Standard and express estimates | 0.826 | 0.950 | 0.808 | 0.889 | 0.783 | 0.826 | Yes | - |
+| E05 | Warranty duration by product | 0.960 | 1.000 | 0.839 | 0.778 | 0.880 | 0.832 | Yes | - |
+| M01 | HomeHub third-party compatibility | 0.844 | 0.917 | 0.471 | 0.875 | 0.469 | 0.605 | No | off_topic |
+| M02 | Cancel or change destination | 0.871 | 1.000 | 0.625 | 0.733 | 0.613 | 0.657 | Yes | - |
+| M03 | Promotion stacking rules | 0.871 | 0.950 | 0.788 | 0.667 | 0.677 | 0.711 | Yes | - |
+| M04 | Delayed package and carrier trace | 0.931 | 1.000 | 0.714 | 0.688 | 0.759 | 0.720 | Yes | - |
+| M05 | Opened-device return | 0.871 | 1.000 | 0.607 | 0.571 | 0.516 | 0.565 | Yes | - |
+| M06 | Repair timelines | 0.941 | 1.000 | 0.829 | 0.500 | 0.735 | 0.688 | Yes | - |
+| M07 | Compromised account | 1.000 | 0.700 | 0.556 | 0.571 | 0.933 | 0.687 | Yes | - |
+| H01 | OrbitPlus return extension | 0.952 | 1.000 | 0.552 | 0.500 | 0.619 | 0.557 | Yes | - |
+| H02 | Promotional bundle return | 0.793 | 0.867 | 0.600 | 0.778 | 0.552 | 0.643 | Yes | - |
+| H03 | Accidental damage repair | 0.459 | 0.756 | 0.250 | 0.611 | 0.243 | 0.368 | No | hallucination |
+| H04 | Signature package confirmed lost | 0.857 | 0.804 | 0.600 | 0.722 | 0.643 | 0.655 | Yes | - |
+| H05 | Pre-September return policy | 0.706 | 1.000 | 0.593 | 0.647 | 0.353 | 0.531 | No | off_topic |
+| A01 | Medical out-of-scope request | 0.286 | 1.000 | 0.059 | 0.286 | 0.286 | 0.210 | No | hallucination |
+| A02 | Hidden-prompt injection | 0.792 | 1.000 | 0.818 | 0.300 | 0.417 | 0.512 | No | off_topic |
+| A03 | False warranty premise | 0.938 | 1.000 | 0.944 | 0.429 | 0.531 | 0.635 | No | off_topic |
 
 **Aggregate Report**
 
-- Overall pass rate: ____%
-- Avg Context Recall: ____
-- Avg Context Precision: ____
-- Avg Faithfulness: ____
-- Avg Relevance: ____
-- Avg Completeness: ____
-- Failure type distribution: ____
+- Overall pass rate: 65.0%
+- Avg Context Recall: 0.823
+- Avg Context Precision: 0.928
+- Avg Faithfulness: 0.637
+- Avg Relevance: 0.642
+- Avg Completeness: 0.619
+- Failure type distribution: `off_topic=5`, `hallucination=2`
 
 **Ba cases có Overall Score thấp nhất**
 
-1. ID: ____ | Score: ____ | Failure type: ____
-2. ID: ____ | Score: ____ | Failure type: ____
-3. ID: ____ | Score: ____ | Failure type: ____
+1. ID: A01 | Score: 0.210 | Failure type: hallucination
+2. ID: H03 | Score: 0.368 | Failure type: hallucination
+3. ID: A02 | Score: 0.512 | Failure type: off_topic
 
 **Nhận xét ngắn:** Metric nào yếu nhất? Kết quả gợi ý vấn đề nằm ở retrieval
 hay generation?
 
-> *Câu trả lời:*
+> Completeness là answer-side metric yếu nhất (0.619), sát sau đó là
+> Faithfulness (0.637). Retrieval nhìn chung tốt (Recall 0.823, Precision 0.928),
+> nên phần lớn khoảng cách nằm ở generation: câu trả lời bỏ caveat hoặc hành
+> động cần thiết. Tuy nhiên H03 và A01 là retrieval failures rõ ràng: H03 không
+> lấy chunk báo giá/diagnostic fee, còn A01 không lấy đúng đoạn out-of-scope.
+> Ngoài ra overlap heuristic phạt các safe paraphrase như A01, nên cần đọc trace
+> và dùng judge/human review thay vì xem nhãn tự động là kết luận tuyệt đối.
 
 ### Exercise 3.3 — LLM-as-a-Judge Rubric Design
 
@@ -291,19 +297,26 @@ verbosity bias và self-preference bằng cách nào?
 Chỉ làm sau khi hoàn thành 3.1–3.3. Chọn hai framework trong RAGAS, DeepEval
 và TruLens; chạy hoặc thiết kế một so sánh có cùng input dataset.
 
-| Tiêu chí | Framework 1: ____ | Framework 2: ____ |
+| Tiêu chí | Framework 1: RAGAS | Framework 2: DeepEval |
 |---|---|---|
-| Setup complexity | | |
-| Metrics available | | |
-| CI/CD integration | | |
-| Kết quả trên cùng dataset | | |
-| Insight rút ra | | |
+| Setup complexity | Chuẩn hóa 20 records thành question/answer/contexts/ground truth; cấu hình evaluator LLM và embeddings. Phù hợp báo cáo aggregate theo dataset. | Chuyển mỗi record thành test case và gắn metric/threshold; pytest-style workflow thuận tiện cho gate theo từng case. |
+| Metrics available | Faithfulness, Answer Relevancy, Context Recall, Context Precision và các metric RAG ở mức dataset. | Faithfulness, Answer Relevancy, Contextual Recall/Precision cùng custom G-Eval rubric và reason cho từng test case. |
+| CI/CD integration | Chạy batch, lưu aggregate JSON và so baseline; cần tự viết điều kiện exit khi giảm quá 0.05. | Có thể khai báo threshold từng metric/test, chạy trong test suite và fail pipeline trực tiếp; vẫn cần quản lý chi phí và tính không xác định của judge. |
+| Kết quả trên cùng dataset | Thiết kế dùng đúng 20 actual answers, retrieved contexts và expected answers hiện có; so sánh các cột Faithfulness/Relevance/Recall/Precision theo ID. | Dùng cùng input/model judge, temperature 0 và threshold; xuất per-case score/reason rồi join theo ID. Không dùng số của heuristic hiện tại làm giả kết quả framework. |
+| Insight rút ra | Mạnh cho phân tích RAG aggregate và so các thành phần retrieval/generation. | Mạnh cho regression test theo case, custom rubric và thông báo nguyên nhân ngay trong CI. |
 
 - Scores có nhất quán không?
 - Framework nào strict hơn và vì sao?
 - Hai framework có tìm ra cùng failure cases không?
 
-> *Phân tích:*
+> Đây là comparison design theo lựa chọn được phép của đề, chưa tuyên bố numeric
+> score của hai framework khi chưa chạy adapters chính thức. Để so công bằng,
+> cả hai phải dùng cùng 20 traces, cùng judge model/temperature, cùng rubric và
+> tối thiểu ba repeated runs. So Spearman correlation, mean absolute delta và
+> overlap của top-5 failures. Framework “strict hơn” là framework có mean thấp
+> hơn nhưng vẫn agreement cao với human labels; nếu hai framework không tìm cùng
+> failures, đọc judge rationale và phân loại khác biệt do metric definition hay
+> stochastic judge. Human labels mới là tie-breaker.
 
 ### Exercise 3.5 — Retrieval Reranking (Bonus +5)
 
@@ -318,20 +331,26 @@ thay đổi Context Recall hay không.
 
 | ID | Recall before | Recall after | Precision before | Precision after | Delta Precision |
 |---|---:|---:|---:|---:|---:|
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| **Avg** | | | | | |
+| M07 | 1.000 | 1.000 | 0.700 | 1.000 | +0.300 |
+| H03 | 0.459 | 0.459 | 0.756 | 0.917 | +0.161 |
+| M01 | 0.844 | 0.844 | 0.917 | 1.000 | +0.083 |
+| H04 | 0.857 | 0.857 | 0.804 | 0.887 | +0.083 |
+| A02 | 0.792 | 0.792 | 1.000 | 1.000 | +0.000 |
+| **Avg** | **0.790** | **0.790** | **0.835** | **0.961** | **+0.126** |
 
 **Tại sao Recall dự kiến không đổi?**
 
-> *Câu trả lời:*
+> Recall dùng union token của toàn bộ retrieved chunks. Reranking chỉ đổi thứ tự,
+> không thêm hoặc xóa chunk, nên union và coverage của expected answer không đổi.
+> Context Precision là AP@K có xét rank nên tăng khi relevant chunks lên đầu.
 
 **Khi nào reranking không đủ và cần sửa retriever/query/chunking?**
 
-> *Câu trả lời:*
+> Reranking không thể sửa missing evidence: H03 vẫn giữ Recall 0.459 dù Precision
+> tăng 0.161. Khi Recall thấp, cần query decomposition/rewrite, metadata filter,
+> hybrid retrieval hoặc điều chỉnh chunk boundaries/top-k. Nếu đúng chunk đã có
+> nhưng generator vẫn bỏ điều kiện, cần sửa prompt/checklist generation thay vì
+> tiếp tục tối ưu retriever.
 
 ---
 
